@@ -3,15 +3,33 @@
 angular.module('qrBillingWebApp')
   .controller('AdminCtrl', function ($scope, $http, Auth, User) {
 
-    // Use the User $resource to fetch all users
-    $scope.users = User.query();
+    $scope.invoices = [];
+    $scope.newInvoice = {};
 
-    $scope.delete = function(user) {
-      User.remove({ id: user._id });
-      angular.forEach($scope.users, function(u, i) {
-        if (u === user) {
-          $scope.users.splice(i, 1);
+    $http.get('/api/invoices').success(function(invoices) {
+      $scope.invoices = invoices;
+    });
+
+    $scope.addInvoice = function() {
+      var promise = $http.post('/api/invoices', $scope.newInvoice);
+
+      promise.then(function(response){
+        if (response.status && response.status === 201) {
+          $scope.invoices.push(response.data);
+        } else {
+          alert('sorry, something went wrong..');
         }
       });
+
+      $scope.newInvoice = {};
     };
+
+    $scope.deleteInvoice = function(invoice) {
+      $http.delete('/api/invoices/' + invoice._id);
+      var index = $scope.invoices.indexOf(invoice);
+      if (index > -1) {
+        $scope.invoices.splice(index, 1);
+      }
+    };
+
   });

@@ -1,1 +1,19 @@
 .trash { color:rgb(209, 91, 71); }
+
+.createInvoiceForm {
+  .form-group {
+    margin-right: 10px;
+  }
+}
+
+.invoiceTable {
+  width: 100%;
+  th {
+    padding: 10px;
+    text-align: left !important;
+  }
+  td {
+    padding: 10px;
+    border-top: 1px solid #ddd;
+  }
+}

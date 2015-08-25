@@ -1,11 +1,32 @@
 div(ng-include='"components/navbar/navbar.html"')
 .container
-  p
-    | The delete user and user index api routes are restricted to users with the 'admin' role.
-  ul.list-group
-    li.list-group-item(ng-repeat='user in users')
-      strong {{user.name}}
-      br
-      span.text-muted {{user.email}}
-      a.trash(ng-click='delete(user)')
-        span.glyphicon.glyphicon-trash.pull-right
+  .row
+    .col-lg-12
+      button.btn.btn-primary(ng-show='!showCreateInvoice', ng-click='showCreateInvoice=true') + Create Invoice
+  .row(ng-show='showCreateInvoice')
+    .col-lg-12
+      h3 Create Invoice
+      .row
+        .col-lg-12
+          form.createInvoiceForm.form-inline
+            .form-group
+              input.form-control(type='text', ng-model='newInvoice.invoice_number', placeholder='Invoice Number')
+            .form-group
+              input.form-control(type='text', ng-model='newInvoice.customer_number', placeholder='Customer Number')
+            .form-group
+              input.form-control(type='date', ng-model='newInvoice.due_date', placeholder='Due Date')
+            .form-group
+              input.form-control(type='text', ng-model='newInvoice.amount', placeholder='Amount')
+            button.btn.btn-primary(type='submit', ng-click='addInvoice()') Create
+            button.btn.btn-default(ng-show='showCreateInvoice', ng-click='showCreateInvoice=false') Cancel
+  .row
+    .col-lg-12
+      table.invoiceTable(ng-table)
+        tr(ng-repeat='invoice in invoices')
+          td(data-title='"Invoice Number"') {{invoice.invoice_number}}
+          td(data-title='"Customer Number"') {{invoice.customer_number}}
+          td(data-title='"Amount"') {{invoice.amount}}
+          td(data-title='"Due Date"') {{invoice.due_date}}
+          td(data-title='"Delete"')
+            a.trash(ng-click='deleteInvoice(invoice)')
+              span.glyphicon.glyphicon-trash.pull-right
