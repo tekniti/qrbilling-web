@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('qrBillingWebApp')
-  .controller('AdminCtrl', function ($scope, $http, Auth, User) {
+  .controller('AdminCtrl', function ($scope, $http, $log) {
 
     $scope.invoices = [];
     $scope.newInvoice = {};
@@ -17,7 +17,7 @@ angular.module('qrBillingWebApp')
         if (response.status && response.status === 201) {
           $scope.invoices.push(response.data);
         } else {
-          alert('sorry, something went wrong..');
+          $log.info('sorry, something went wrong..');
         }
       });
 
