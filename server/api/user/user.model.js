@@ -12,6 +12,7 @@ var UserSchema = new Schema({
     default: 'user'
   },
   hashedPassword: String,
+  stripeCustomerId: String,
   provider: String,
   salt: String
 });
