@@ -2,6 +2,7 @@
 
 var _ = require('lodash');
 var Invoice = require('./invoice.model');
+var stripe = require('stripe')('sk_test_W99pMeoNDyLgSxGXDwUfQPIg');
 
 // Get list of invoices
 exports.index = function(req, res) {
@@ -11,8 +12,45 @@ exports.index = function(req, res) {
   });
 };
 
+// Pay an invoice
+exports.pay = function(req, res) {
+
+  Invoice.findById(req.params.id, function (err, invoice) {
+    if(err) {
+      return handleError(res, err);
+    }
+    if(!invoice) {
+      return res.status(404).send('Not Found');
+    }
+
+    stripe.charges.create({
+      amount: parseInt(invoice.amount),
+      currency: "usd",
+      customer: req.user.stripeCustomerId,
+      description: "Charge for " + req.user.email,
+      receipt_email: req.user.email
+    }, function(err, charge) {
+      if (err) {
+        return handleError(res, err);
+      }
+
+      console.log('charged successfully');
+      invoice.paid_date = (new Date()).getTime();
+      invoice.save();
+      return res.json(invoice);
+    });
+
+  });
+
+};
+
 // Get a single invoice
 exports.show = function(req, res) {
+  // If not authenticated - Redirect to download the app
+  if (!req.user) {
+    return res.redirect('http://play.google.com');
+  }
+
   Invoice.findById(req.params.id, function (err, invoice) {
     if(err) { return handleError(res, err); }
     if(!invoice) { return res.status(404).send('Not Found'); }

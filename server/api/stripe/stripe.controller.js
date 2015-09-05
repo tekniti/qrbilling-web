@@ -23,6 +23,7 @@ exports.create = function(req, res) {
       source: stripeToken // obtained with Stripe.js
     }, function(err, customer) {
       if (err) {
+        console.log(err);
         return res.status(400).json(err);
       }
 
@@ -35,7 +36,7 @@ exports.create = function(req, res) {
           }
           res.status(200).json({result: true});
         });
-      });
+       });
     });
 
   } else {

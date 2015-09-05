@@ -23,7 +23,11 @@ div(ng-include='"components/navbar/navbar.html"')
     .col-lg-12
       table.invoiceTable(ng-table)
         tr(ng-repeat='invoice in invoices')
-          td(data-title='"Invoice Number"') {{invoice.invoice_number}}
+          td(data-title='"Invoice Number"')
+            a(href='', ng-click='showQrCode = !showQrCode') {{invoice.invoice_number}}
+            div(ng-show='showQrCode')
+              br
+              img(src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{apiUrl}}%2Fapi%2Finvoices%2F{{invoice._id}}')
           td(data-title='"Customer Number"') {{invoice.customer_number}}
           td(data-title='"Amount"') {{invoice.amount}}
           td(data-title='"Due Date"') {{invoice.due_date}}

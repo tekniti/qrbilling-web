@@ -3,6 +3,9 @@
 angular.module('qrBillingWebApp')
   .controller('AdminCtrl', function ($scope, $http, $log) {
 
+    //$scope.apiUrl = encodeURI('http://localhost:9000');
+    $scope.apiUrl = encodeURI('http://192.168.0.103:9000');
+
     $scope.invoices = [];
     $scope.newInvoice = {};
 
