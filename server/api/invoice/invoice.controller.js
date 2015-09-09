@@ -14,6 +14,8 @@ exports.index = function(req, res) {
 
 // Pay an invoice
 exports.pay = function(req, res) {
+  var cardId = req.body.cardId;
+  var stripeCustomerId = req.user.stripeCustomerId;
 
   Invoice.findById(req.params.id, function (err, invoice) {
     if(err) {
@@ -23,10 +25,13 @@ exports.pay = function(req, res) {
       return res.status(404).send('Not Found');
     }
 
+    // TODO: check if it's already payed
+
     stripe.charges.create({
       amount: parseInt(invoice.amount),
       currency: "usd",
-      customer: req.user.stripeCustomerId,
+      customer: stripeCustomerId,
+      source: cardId,
       description: "Charge for " + req.user.email,
       receipt_email: req.user.email
     }, function(err, charge) {
@@ -34,7 +39,6 @@ exports.pay = function(req, res) {
         return handleError(res, err);
       }
 
-      console.log('charged successfully');
       invoice.paid_date = (new Date()).getTime();
       invoice.save();
       return res.json(invoice);

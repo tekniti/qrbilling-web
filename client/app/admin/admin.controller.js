@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('qrBillingWebApp')
-  .controller('AdminCtrl', function ($scope, $http, $log) {
+  .controller('AdminCtrl', function ($scope, $http, $log, $location) {
 
-    //$scope.apiUrl = encodeURI('http://localhost:9000');
-    $scope.apiUrl = encodeURI('http://192.168.0.103:9000');
+    var baseUrl = 'http://' + $location.host() + ':' + $location.port();
+    $scope.apiUrl = encodeURI(baseUrl);
 
     $scope.invoices = [];
     $scope.newInvoice = {};

@@ -12,6 +12,7 @@ angular.module('qrBillingWebApp')
         Auth.createUser({
           name: $scope.user.name,
           email: $scope.user.email,
+          role: 'admin',
           password: $scope.user.password
         })
         .then( function() {

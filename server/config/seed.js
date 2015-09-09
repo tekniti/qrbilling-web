@@ -29,7 +29,7 @@ User.find({}).remove(function() {
     provider: 'local',
     name: 'Test User',
     email: 'test@test.com',
-    stripeCustomerId: 'cus_6v9b6L8aAR73R6',
+    stripeCustomerId: 'cus_6x39le2itHy8vG',
     password: 'test'
   }, {
     provider: 'local',
