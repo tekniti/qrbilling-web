@@ -28,7 +28,7 @@ exports.pay = function(req, res) {
     // TODO: check if it's already payed
 
     stripe.charges.create({
-      amount: parseInt(invoice.amount),
+      amount: parseInt(invoice.amount * 100),
       currency: "usd",
       customer: stripeCustomerId,
       source: cardId,

@@ -8,6 +8,7 @@ angular.module('qrBillingWebApp')
 
     $scope.invoices = [];
     $scope.newInvoice = {};
+    $scope.adminModel = {};
 
     $http.get('/api/invoices').success(function(invoices) {
       $scope.invoices = invoices;

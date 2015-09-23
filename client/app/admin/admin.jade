@@ -22,10 +22,10 @@ div(ng-include='"components/navbar/navbar.html"')
   .row
     .col-lg-12
       table.invoiceTable(ng-table)
-        tr(ng-repeat='invoice in invoices')
+        tr(ng-repeat='(index, invoice) in invoices')
           td(data-title='"Invoice Number"')
-            a(href='', ng-click='showQrCode = !showQrCode') {{invoice.invoice_number}}
-            div(ng-show='showQrCode')
+            a(href='', ng-click='adminModel.showQrCode = (adminModel.showQrCode === index) ? -1 : index;') {{invoice.invoice_number}}
+            div(ng-show='adminModel.showQrCode === index')
               br
               img(src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{apiUrl}}%2Fapi%2Finvoices%2F{{invoice._id}}')
           td(data-title='"Customer Number"') {{invoice.customer_number}}
