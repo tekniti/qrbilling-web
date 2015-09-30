@@ -80,6 +80,36 @@ exports.changePassword = function(req, res, next) {
 };
 
 /**
+ * Set pin
+ */
+exports.setPin = function(req, res, next) {
+  var userId = req.user._id;
+  var pin = String(req.body.pin);
+
+  User.findById(userId, function (err, user) {
+    user.pin = pin;
+    user.save(function(err) {
+      if (err) return validationError(res, err);
+      res.status(200).send('OK');
+    });
+  });
+};
+
+/**
+ * Compare pin
+ */
+exports.comparePin = function(req, res, next) {
+  var userId = req.user._id;
+  var oldPin = String(req.body.oldPin);
+
+  if (oldPin === req.user.pin) {
+    return res.status(200).send('OK');
+  } else {
+    return res.status(403).send('Fordidden');
+  }
+};
+
+/**
  * Get my info
  */
 exports.me = function(req, res, next) {

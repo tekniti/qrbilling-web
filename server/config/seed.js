@@ -30,13 +30,15 @@ User.find({}).remove(function() {
     name: 'Test User',
     email: 'test@test.com',
     stripeCustomerId: 'cus_6x39le2itHy8vG',
-    password: 'test'
+    password: 'test',
+    pin: 1111
   }, {
     provider: 'local',
     role: 'admin',
     name: 'Admin',
     email: 'admin@admin.com',
-    password: 'admin'
+    password: 'admin',
+    pin: 1111
   }, function() {
       console.log('finished populating users');
     }
